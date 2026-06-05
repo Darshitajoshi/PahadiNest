@@ -1,6 +1,6 @@
 # PahadiNest
 
-A smart homestay discovery and booking platform for travelers in Uttarakhand with personalized recommendations.
+A smart homestay discovery and booking platform for travelers in Uttarakhand with personalized stay recommendations and nearby attraction suggestions.
 
 ## Tech Stack
 - React.js
