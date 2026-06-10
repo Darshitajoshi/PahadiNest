@@ -11,7 +11,7 @@ function Footer() {
           </h2>
 
           <p className="text-gray-300 leading-7">
-            Discover peaceful mountain homestays,
+            Discover beautiful mountain homestays,
             hidden gems, and unforgettable experiences
             across Uttarakhand.
           </p>

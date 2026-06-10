@@ -8,9 +8,8 @@ function Hero() {
                 <div>
 
                     <p className="text-green-700 font-semibold text-lg mb-3">
-                        Explore Uttarakhand 🏔️
+                        Explore Beautiful Uttarakhand 🏔️
                     </p>
-
                     <h1 className="text-3xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
                         Discover Your Perfect
                         <span className="text-green-700"> Pahadi Stay</span>
