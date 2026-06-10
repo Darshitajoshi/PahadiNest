@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 function Navbar() {
   return (
-    <nav className="bg-slate-900/95 backdrop-blur-md shadow-md text-white px-4 md:px-8 py-4">
+    <nav className="bg-slate-900/95 backdrop-blur-md shadow-md text-white px-4 md:px-8 py-5">
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-3">
 
