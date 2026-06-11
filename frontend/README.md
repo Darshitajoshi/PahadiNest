@@ -1,16 +1,42 @@
-# React + Vite
+# PahadiNest 🏔️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PahadiNest is a homestay discovery web application designed to help users find peaceful mountain stays across Uttarakhand. The platform helps travelers explore destinations, discover homestays, and receive personalized recommendations.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* Responsive Navbar and Footer
+* Hero Section with featured Uttarakhand map
+* Featured Homestay Cards
+* Multiple Page Routing (Home, About, Login, Dashboard)
+* Mobile Responsive Design using Tailwind CSS
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* React JS
+* Vite
+* Tailwind CSS
+* React Router DOM
 
-## Expanding the ESLint configuration
+## Project Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Clone the repository:
+
+```bash
+git clone https://github.com/Darshitajoshi/PahadiNest.git
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run locally:
+
+```bash
+npm run dev
+```
+
+## Project Status
+
+Week 2 Frontend Skeleton completed successfully.
