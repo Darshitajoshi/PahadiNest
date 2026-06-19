@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar"
-import Footer from "./components/Footer"
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-import Home from "./pages/Home"
-import About from "./pages/About"
-import Login from "./pages/Login"
-import Dashboard from "./pages/Dashboard"
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Showcase from "./pages/Showcase";
 
 function App() {
   return (
@@ -24,12 +25,14 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />} />
 
+        <Route path="/showcase" element={<Showcase />} />
+
       </Routes>
 
       <Footer />
 
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
