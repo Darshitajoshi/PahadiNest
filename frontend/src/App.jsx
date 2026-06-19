@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -10,13 +11,37 @@ import Dashboard from "./pages/Dashboard";
 import Showcase from "./pages/Showcase";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+
+    setDarkMode(!darkMode);
+  };
+
   return (
     <BrowserRouter>
-
-      <Navbar />
+      <Navbar
+        darkMode={darkMode}
+        toggleTheme={toggleTheme}
+      />
 
       <Routes>
-
         <Route path="/" element={<Home />} />
 
         <Route path="/about" element={<About />} />
@@ -26,11 +51,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/showcase" element={<Showcase />} />
-
       </Routes>
 
       <Footer />
-
     </BrowserRouter>
   );
 }

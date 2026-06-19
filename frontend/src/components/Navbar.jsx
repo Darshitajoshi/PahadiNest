@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ darkMode, toggleTheme }) {
   return (
     <nav className="bg-slate-900/95 backdrop-blur-md shadow-md text-white px-4 md:px-8 py-5">
 
@@ -16,7 +16,7 @@ function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-lg font-medium">
+        <ul className="flex flex-wrap justify-center items-center gap-4 text-sm md:text-lg font-medium">
 
           <li>
             <Link to="/" className="hover:text-green-300 transition">
@@ -42,12 +42,21 @@ function Navbar() {
             </Link>
           </li>
 
+          <li>
+            <button
+              onClick={toggleTheme}
+              className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded-lg text-white transition"
+            >
+              {darkMode ? "☀️ Light" : "🌙 Dark"}
+            </button>
+          </li>
+
         </ul>
 
       </div>
 
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

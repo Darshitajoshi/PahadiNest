@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="bg-slate-900 text-white py-12 px-12">
+    <footer className="bg-slate-900 dark:bg-black text-white py-12 px-12 transition-all duration-300">
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
 
@@ -10,7 +10,7 @@ function Footer() {
             🏔️ PahadiNest
           </h2>
 
-          <p className="text-gray-300 leading-7">
+          <p className="text-gray-300 dark:text-gray-400 leading-7">
             Discover beautiful mountain homestays,
             hidden gems, and unforgettable experiences
             across Uttarakhand.
@@ -23,7 +23,7 @@ function Footer() {
             Quick Links
           </h3>
 
-          <ul className="space-y-2 text-gray-300">
+          <ul className="space-y-2 text-gray-300 dark:text-gray-400">
             <li>Home</li>
             <li>About</li>
             <li>Login</li>
@@ -37,11 +37,11 @@ function Footer() {
             Contact
           </h3>
 
-          <p className="text-gray-300">
+          <p className="text-gray-300 dark:text-gray-400">
             📍 Uttarakhand, India
           </p>
 
-          <p className="text-gray-300">
+          <p className="text-gray-300 dark:text-gray-400">
             ✉️ support@pahadinest.com
           </p>
         </div>
@@ -53,7 +53,7 @@ function Footer() {
       </div>
 
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
