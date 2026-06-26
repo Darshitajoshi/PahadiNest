@@ -5,7 +5,10 @@ const dotenv = require("dotenv");
 // Load environment variables
 dotenv.config();
 
-// Create Express app
+// Import Routes
+const homestayRoutes = require("./routes/homestayRoutes");
+
+// Create Express App
 const app = express();
 
 // Middleware
@@ -21,6 +24,27 @@ app.get("/", (req, res) => {
     success: true,
     message: "🚀 Welcome to PahadiNest Backend API",
     version: "1.0.0",
+  });
+});
+
+// API Routes
+app.use("/api/homestays", homestayRoutes);
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route Not Found",
+  });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
   });
 });
 
