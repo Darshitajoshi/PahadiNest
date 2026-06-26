@@ -1,0 +1,27 @@
+{
+  "name": "pahadinest-backend",
+  "version": "1.0.0",
+  "description": "Backend API for PahadiNest",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "api",
+    "pahadinest"
+  ],
+  "author": "Darshita Joshi",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
