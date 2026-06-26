@@ -1,55 +1,124 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
-    <footer className="bg-slate-900 dark:bg-black text-white py-12 px-12 transition-all duration-300">
+    <footer className="bg-slate-950 text-white pt-16 pb-8">
 
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
 
         {/* Brand */}
         <div>
-          <h2 className="text-3xl font-bold mb-4 text-green-400">
-            🏔️ PahadiNest
-          </h2>
 
-          <p className="text-gray-300 dark:text-gray-400 leading-7">
-            Discover beautiful mountain homestays,
-            hidden gems, and unforgettable experiences
+          <div className="flex items-center gap-3 mb-5">
+
+            <img
+              src="/logopahadinest.png"
+              alt="PahadiNest Logo"
+              className="w-14 h-14 object-contain"
+            />
+
+            <div>
+              <h2 className="text-2xl font-bold">
+                PahadiNest
+              </h2>
+
+              <p className="text-sm text-gray-400">
+                Explore Uttarakhand
+              </p>
+            </div>
+
+          </div>
+
+          <p className="text-gray-400 leading-7">
+            Discover peaceful mountain homestays,
+            hidden villages, breathtaking landscapes,
+            and unforgettable travel experiences
             across Uttarakhand.
           </p>
+
         </div>
 
-        {/* Quick Links */}
+        {/* Explore */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">
-            Quick Links
+
+          <h3 className="text-xl font-semibold mb-5">
+            Explore
           </h3>
 
-          <ul className="space-y-2 text-gray-300 dark:text-gray-400">
-            <li>Home</li>
-            <li>About</li>
-            <li>Login</li>
-            <li>Dashboard</li>
+          <ul className="space-y-3 text-gray-400">
+
+            <li>
+              <Link to="/" className="hover:text-emerald-400 transition">
+                Home
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/about" className="hover:text-emerald-400 transition">
+                About
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/dashboard" className="hover:text-emerald-400 transition">
+                Dashboard
+              </Link>
+            </li>
+
           </ul>
+
+        </div>
+
+        {/* Account */}
+        <div>
+
+          <h3 className="text-xl font-semibold mb-5">
+            Account
+          </h3>
+
+          <ul className="space-y-3 text-gray-400">
+
+            <li>
+              <Link to="/login" className="hover:text-emerald-400 transition">
+                Login
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/signup" className="hover:text-emerald-400 transition">
+                Sign Up
+              </Link>
+            </li>
+
+          </ul>
+
         </div>
 
         {/* Contact */}
         <div>
-          <h3 className="text-xl font-semibold mb-4">
+
+          <h3 className="text-xl font-semibold mb-5">
             Contact
           </h3>
 
-          <p className="text-gray-300 dark:text-gray-400">
-            📍 Uttarakhand, India
-          </p>
+          <div className="space-y-3 text-gray-400">
 
-          <p className="text-gray-300 dark:text-gray-400">
-            ✉️ support@pahadinest.com
-          </p>
+            <p>📍 Uttarakhand, India</p>
+
+            <p>✉️ support@pahadinest.com</p>
+
+            <p>📞 +91 XXXXX XXXXX</p>
+
+          </div>
+
         </div>
 
       </div>
 
-      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
-        © 2026 PahadiNest. All rights reserved.
+      <div className="border-t border-slate-800 mt-12 pt-6 text-center text-gray-500 text-sm">
+
+        © 2026 PahadiNest • Crafted with ❤️ for Himalayan Travelers
+
       </div>
 
     </footer>
