@@ -42,70 +42,39 @@ const homestays = [
     price: 3500,
     rating: 4.9,
     reviews: 728,
-    image: "nainital.jpeg",
-    amenities: [
-      "Lake View",
-      "Free WiFi",
-      "Restaurant",
-      "Parking"
-    ],
-    description:
-      "Luxury stay overlooking the beautiful Naini Lake."
+    image:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80",
+    description: "Luxury stay overlooking the beautiful Naini Lake.",
   },
-
   {
     id: 4,
     name: "Auli Snow Resort",
     location: "Auli",
-    price: 4800,
+    price: 4200,
     rating: 4.9,
-    reviews: 610,
-    image: "auli.jpeg",
-    amenities: [
-      "Skiing",
-      "Mountain View",
-      "Breakfast",
-      "Fireplace"
-    ],
-    description:
-      "Best winter destination with breathtaking snow views."
+    reviews: 415,
+    image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800",
+    description: "Stay surrounded by snow-covered mountains and skiing adventures.",
   },
-
   {
     id: 5,
     name: "Ranikhet Eco Stay",
     location: "Ranikhet",
     price: 2600,
     rating: 4.6,
-    reviews: 295,
-    image: "ranikhet.jpeg",
-    amenities: [
-      "Garden",
-      "Parking",
-      "Breakfast",
-      "Pet Friendly"
-    ],
-    description:
-      "Eco-friendly stay surrounded by pine forests."
+    reviews: 231,
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800",
+    description: "A peaceful eco-friendly stay amidst pine forests.",
   },
-
   {
     id: 6,
     name: "Mukteshwar Valley Cottage",
     location: "Mukteshwar",
-    price: 3100,
+    price: 3200,
     rating: 4.8,
-    reviews: 402,
-    image: "mukteshwar.jpeg",
-    amenities: [
-      "Valley View",
-      "Free WiFi",
-      "Bonfire",
-      "Restaurant"
-    ],
-    description:
-      "A cozy cottage with spectacular valley and sunrise views."
-  }
+    reviews: 309,
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800",
+    description: "Cozy cottage with panoramic Himalayan valley views.",
+  },
 ];
 
 module.exports = homestays;
