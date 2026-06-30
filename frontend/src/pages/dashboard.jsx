@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [destinations, setDestinations] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -25,7 +27,35 @@ function Dashboard() {
       </div>
     );
   }
+  const deleteHomestay = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this homestay?"
+    );
 
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/homestays/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        setDestinations((prev) =>
+          prev.filter((item) => item._id !== id)
+        );
+
+        alert("✅ Homestay Deleted Successfully");
+      } else {
+        alert("Failed to delete homestay");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    }
+  };
   if (error) {
     return (
       <div className="min-h-screen flex justify-center items-center text-red-600 text-2xl font-semibold">
@@ -111,9 +141,20 @@ function Dashboard() {
       {/* Featured Homestays */}
       <section className="max-w-7xl mx-auto px-6 pb-16">
 
-        <h2 className="text-3xl font-bold mb-8 dark:text-white">
-          Featured Homestays
-        </h2>
+        <div className="flex justify-between items-center mb-8">
+
+          <h2 className="text-3xl font-bold dark:text-white">
+            Featured Homestays
+          </h2>
+
+          <button
+            onClick={() => window.location.href = "/add-homestay"}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl"
+          >
+            + Add Homestay
+          </button>
+
+        </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -152,9 +193,28 @@ function Dashboard() {
                   {place.description}
                 </p>
 
-                <button className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl transition w-full">
-                  Explore
-                </button>
+                <div className="mt-6 flex gap-3">
+
+                  <button
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl"
+                  >
+                    Explore
+                  </button>
+
+                  <button
+                    onClick={() => navigate(`/edit-homestay/${place._id}`)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => deleteHomestay(place._id)}
+                    className="bg-red-600 hover:bg-red-700 text-white px-5 rounded-xl"
+                  >
+                    Delete
+                  </button>
+                </div>
 
               </div>
 
