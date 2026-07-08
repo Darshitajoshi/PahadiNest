@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Button, Input } from "../components/ui";
 
@@ -7,6 +9,39 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+  const handleSignup = async () => {
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name,
+          email,
+          password,
+        }
+      );
+
+      alert(response.data.message);
+
+      navigate("/login");
+
+    } catch (error) {
+
+      alert(
+        error.response?.data?.message ||
+        "Registration failed"
+      );
+
+    }
+
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-emerald-50 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center px-6 py-10">
@@ -85,7 +120,10 @@ function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
 
-              <Button size="lg">
+              <Button
+                size="lg"
+                onClick={handleSignup}
+              >
                 Create Account
               </Button>
 

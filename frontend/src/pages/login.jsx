@@ -1,9 +1,38 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 import { Button, Input } from "../components/ui";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      // Save JWT Token
+      localStorage.setItem("token", response.data.token);
+
+      alert(response.data.message);
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      alert(
+        error.response?.data?.message ||
+        "Login failed"
+      );
+
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-emerald-50 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center px-6 py-10">
@@ -102,10 +131,12 @@ function Login() {
 
               </div>
 
-              <Button size="lg">
+              <Button
+                size="lg"
+                onClick={handleLogin}
+              >
                 Login
               </Button>
-
               <div className="flex items-center my-4">
                 <div className="flex-1 border-t"></div>
                 <span className="mx-4 text-gray-400 text-sm">
@@ -122,9 +153,12 @@ function Login() {
 
                 Don't have an account?
 
-                <span className="ml-2 text-emerald-600 font-semibold cursor-pointer hover:underline">
+                <Link
+                  to="/signup"
+                  className="ml-2 text-emerald-600 font-semibold hover:underline"
+                >
                   Sign Up
-                </span>
+                </Link>
 
               </p>
 

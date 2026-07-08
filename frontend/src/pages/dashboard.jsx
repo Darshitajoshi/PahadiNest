@@ -7,19 +7,52 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/homestays")
-      .then((response) => response.json())
-      .then((data) => {
-        setDestinations(data.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load homestays.");
-        setLoading(false);
-      });
-  }, []);
 
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    navigate("/login");
+    return;
+  }
+
+  const fetchHomestays = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/homestays",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        alert("Session expired. Please login again.");
+        navigate("/login");
+        return;
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Failed to load homestays.");
+        setLoading(false);
+        return;
+      }
+
+      setDestinations(data.data || []);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to load homestays.");
+      setLoading(false);
+    }
+  };
+
+  fetchHomestays();
+}, [navigate]);
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center text-2xl font-semibold">
@@ -39,6 +72,9 @@ function Dashboard() {
         `http://localhost:5000/api/homestays/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
