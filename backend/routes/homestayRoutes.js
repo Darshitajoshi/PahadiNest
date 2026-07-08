@@ -1,4 +1,5 @@
 const express = require("express");
+const verifyToken = require("../middleware/authMiddleware");
 
 const {
   getAllHomestays,
@@ -15,7 +16,7 @@ const router = express.Router();
 router.get("/search", searchHomestays);
 
 // CRUD Routes
-router.get("/", getAllHomestays);
+router.get("/", verifyToken, getAllHomestays);
 
 router.get("/:id", getHomestayById);
 

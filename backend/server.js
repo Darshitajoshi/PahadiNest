@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const authRoutes = require("./routes/authRoutes");
+const rateLimit = require("express-rate-limit");
 
 dotenv.config();
 
@@ -10,6 +12,15 @@ connectDB();
 const homestayRoutes = require("./routes/homestayRoutes");
 
 const app = express();
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+
+  message: {
+    success: false,
+    message: "Too many login attempts. Please try again after 15 minutes.",
+  },
+});
 
 app.use(cors());
 app.use(express.json());
@@ -25,7 +36,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/homestays", homestayRoutes);
-
+app.use("/api/auth", authLimiter, authRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -35,6 +46,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
+
 
   res.status(500).json({
     success: false,
