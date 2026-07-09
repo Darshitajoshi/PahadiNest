@@ -145,7 +145,12 @@ function Login() {
                 <div className="flex-1 border-t"></div>
               </div>
 
-              <button className="w-full border border-slate-300 dark:border-slate-700 rounded-xl py-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <button
+                onClick={() => {
+                  window.location.href = "http://localhost:5000/auth/google";
+                }}
+                className="w-full border border-slate-300 dark:border-slate-700 rounded-xl py-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              >
                 Continue with Google
               </button>
 

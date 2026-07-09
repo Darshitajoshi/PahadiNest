@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Showcase from "./pages/Showcase";
 import AddHomestay from "./pages/AddHomestay";
 import EditHomestay from "./pages/EditHomestay";
+import GoogleSuccess from "./pages/GoogleSuccess";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -55,9 +56,18 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />} />
 
+        <Route
+          path="/google-success"
+          element={<GoogleSuccess />}
+        />
+
         <Route path="/showcase" element={<Showcase />} />
 
-        <Route path="/add-homestay" element={<AddHomestay />} />
+        <Route
+          path="/add-homestay"
+          element={<AddHomestay />}
+        />
+
         <Route
           path="/edit-homestay/:id"
           element={<EditHomestay />}

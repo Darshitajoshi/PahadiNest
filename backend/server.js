@@ -1,10 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+
+// Load .env FIRST
+dotenv.config();
+
 const authRoutes = require("./routes/authRoutes");
 const rateLimit = require("express-rate-limit");
-
-dotenv.config();
+const session = require("express-session");
+const passport = require("./config/passport");
+const googleAuthRoutes = require("./routes/googleAuthRoutes");
 
 const connectDB = require("./config/db");
 connectDB();
@@ -12,18 +17,29 @@ connectDB();
 const homestayRoutes = require("./routes/homestayRoutes");
 
 const app = express();
+
 const authLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 5,
-
   message: {
     success: false,
-    message: "Too many login attempts. Please try again after 15 minutes.",
+    message: "Too many login attempts. Please try again after 1 minute.",
   },
 });
 
 app.use(cors());
 app.use(express.json());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = process.env.PORT || 5000;
 
@@ -37,6 +53,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/homestays", homestayRoutes);
 app.use("/api/auth", authLimiter, authRoutes);
+
+// Google OAuth Routes
+app.use("/auth", googleAuthRoutes);
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -46,7 +66,6 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-
 
   res.status(500).json({
     success: false,
