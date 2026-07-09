@@ -149,8 +149,13 @@ function Login() {
                 onClick={() => {
                   window.location.href = "http://localhost:5000/auth/google";
                 }}
-                className="w-full border border-slate-300 dark:border-slate-700 rounded-xl py-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                className="w-full flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 rounded-xl py-3 bg-white dark:bg-slate-900 text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
               >
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
                 Continue with Google
               </button>
 
