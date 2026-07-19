@@ -59,6 +59,14 @@ function Navbar({ darkMode, toggleTheme }) {
           >
             Dashboard
           </Link>
+
+          {/* AI Travel Assistant */}
+          <Link
+            to="/ai-chat"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 transition shadow-lg"
+          >
+            🤖 AI Assistant
+          </Link>
         </div>
 
         {/* Right Buttons */}
@@ -89,6 +97,7 @@ function Navbar({ darkMode, toggleTheme }) {
             </>
           )}
 
+          {/* Dark Mode Toggle */}
           <button
             onClick={toggleTheme}
             className="w-11 h-11 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:scale-110 transition"

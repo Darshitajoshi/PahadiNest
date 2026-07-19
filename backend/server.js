@@ -2,31 +2,30 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-// Load .env FIRST
+// Load environment variables FIRST
 dotenv.config();
 
-const authRoutes = require("./routes/authRoutes");
+console.log(
+  "Gemini Key Loaded:",
+  process.env.GEMINI_API_KEY ? "YES" : "NO"
+);
+
 const rateLimit = require("express-rate-limit");
 const session = require("express-session");
 const passport = require("./config/passport");
-const googleAuthRoutes = require("./routes/googleAuthRoutes");
 
 const connectDB = require("./config/db");
 connectDB();
 
+// Routes
+const authRoutes = require("./routes/authRoutes");
+const googleAuthRoutes = require("./routes/googleAuthRoutes");
 const homestayRoutes = require("./routes/homestayRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
-const authLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 5,
-  message: {
-    success: false,
-    message: "Too many login attempts. Please try again after 1 minute.",
-  },
-});
-
+// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -41,8 +40,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const PORT = process.env.PORT || 5000;
+// Rate Limiter
+const authLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  message: {
+    success: false,
+    message: "Too many login attempts. Please try again after 1 minute.",
+  },
+});
 
+// Routes
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -53,10 +61,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/homestays", homestayRoutes);
 app.use("/api/auth", authLimiter, authRoutes);
-
-// Google OAuth Routes
 app.use("/auth", googleAuthRoutes);
+app.use("/api/ai", aiRoutes);
 
+// 404 Route
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -64,6 +72,7 @@ app.use((req, res) => {
   });
 });
 
+// Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
 
@@ -72,6 +81,8 @@ app.use((err, req, res, next) => {
     message: "Internal Server Error",
   });
 });
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`✅ Server is running on http://localhost:${PORT}`);
