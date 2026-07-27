@@ -22,20 +22,27 @@ function AddHomestay() {
     if (!token) {
       alert("Please login first");
       navigate("/login");
+      return;
     }
   }, [navigate]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Session expired. Please login again.");
+      navigate("/login");
+      return;
+    }
 
     const data = {
       ...formData,
@@ -44,7 +51,8 @@ function AddHomestay() {
       reviews: Number(formData.reviews),
       amenities: formData.amenities
         .split(",")
-        .map((item) => item.trim()),
+        .map((item) => item.trim())
+        .filter((item) => item !== ""),
     };
 
     try {
@@ -60,11 +68,24 @@ function AddHomestay() {
         }
       );
 
+      const result = await response.json();
+
       if (response.ok) {
         alert("✅ Homestay Added Successfully");
+
+        setFormData({
+          name: "",
+          location: "",
+          price: "",
+          rating: "",
+          reviews: "",
+          image: "",
+          description: "",
+          amenities: "",
+        });
+
         navigate("/dashboard");
       } else {
-        const result = await response.json();
         alert(result.message || "Something went wrong");
       }
     } catch (error) {
@@ -87,6 +108,7 @@ function AddHomestay() {
           className="w-full border rounded-lg p-3 mb-4 dark:bg-slate-700 dark:text-white"
           name="name"
           placeholder="Homestay Name"
+          value={formData.name}
           onChange={handleChange}
           required
         />
@@ -95,6 +117,7 @@ function AddHomestay() {
           className="w-full border rounded-lg p-3 mb-4 dark:bg-slate-700 dark:text-white"
           name="location"
           placeholder="Location"
+          value={formData.location}
           onChange={handleChange}
           required
         />
@@ -104,6 +127,7 @@ function AddHomestay() {
           name="price"
           type="number"
           placeholder="Price"
+          value={formData.price}
           onChange={handleChange}
           required
         />
@@ -114,6 +138,7 @@ function AddHomestay() {
           type="number"
           step="0.1"
           placeholder="Rating"
+          value={formData.rating}
           onChange={handleChange}
           required
         />
@@ -123,6 +148,7 @@ function AddHomestay() {
           name="reviews"
           type="number"
           placeholder="Reviews"
+          value={formData.reviews}
           onChange={handleChange}
           required
         />
@@ -131,6 +157,7 @@ function AddHomestay() {
           className="w-full border rounded-lg p-3 mb-4 dark:bg-slate-700 dark:text-white"
           name="image"
           placeholder="Image URL"
+          value={formData.image}
           onChange={handleChange}
           required
         />
@@ -139,6 +166,7 @@ function AddHomestay() {
           className="w-full border rounded-lg p-3 mb-4 dark:bg-slate-700 dark:text-white"
           name="amenities"
           placeholder="Amenities (comma separated)"
+          value={formData.amenities}
           onChange={handleChange}
         />
 
@@ -147,6 +175,7 @@ function AddHomestay() {
           rows="4"
           name="description"
           placeholder="Description"
+          value={formData.description}
           onChange={handleChange}
           required
         />
