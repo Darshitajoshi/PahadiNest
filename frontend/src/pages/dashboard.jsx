@@ -69,14 +69,8 @@ function Dashboard() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/homestays/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+  "http://localhost:5000/api/homestays"
+);
 
       if (response.ok) {
         setDestinations((prev) =>
@@ -184,7 +178,7 @@ function Dashboard() {
           </h2>
 
           <button
-            onClick={() => window.location.href = "/add-homestay"}
+            onClick={() => navigate("/add-homestay")}
             className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl"
           >
             + Add Homestay
@@ -192,12 +186,23 @@ function Dashboard() {
 
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {destinations.length === 0 ? (
+  <div className="text-center py-20">
+    <h3 className="text-2xl font-semibold text-gray-500 dark:text-gray-300">
+      No Homestays Available
+    </h3>
+
+    <p className="mt-2 text-gray-400">
+      Click "Add Homestay" to create your first listing.
+    </p>
+  </div>
+) : (
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {destinations.map((place) => (
 
             <div
-              key={place.id}
+              key={place._id}
               className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300"
             >
 
@@ -257,8 +262,9 @@ function Dashboard() {
             </div>
 
           ))}
-
-        </div>
+ </div>
+)}
+       
 
       </section>
 

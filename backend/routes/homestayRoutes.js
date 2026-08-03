@@ -12,18 +12,30 @@ const {
 
 const router = express.Router();
 
-// Search Route
+// =========================
+// Public Routes
+// =========================
+
+// Get all homestays (Homepage)
+router.get("/", getAllHomestays);
+
+// Search homestays
 router.get("/search", searchHomestays);
 
-// CRUD Routes
-router.get("/", verifyToken, getAllHomestays);
-
+// Get single homestay
 router.get("/:id", getHomestayById);
 
-router.post("/", createHomestay);
+// =========================
+// Protected Routes
+// =========================
 
-router.put("/:id", updateHomestay);
+// Create new homestay
+router.post("/", verifyToken, createHomestay);
 
-router.delete("/:id", deleteHomestay);
+// Update homestay
+router.put("/:id", verifyToken, updateHomestay);
+
+// Delete homestay
+router.delete("/:id", verifyToken, deleteHomestay);
 
 module.exports = router;
