@@ -2,19 +2,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Footer from "./components/footer";
 
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Login";
+import Home from "./pages/home";
+import About from "./pages/about";
+import Login from "./pages/login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard";
 import Showcase from "./pages/Showcase";
 import AddHomestay from "./pages/AddHomestay";
 import EditHomestay from "./pages/EditHomestay";
 import GoogleSuccess from "./pages/GoogleSuccess";
 import AIChat from "./pages/AIChat";
-
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
