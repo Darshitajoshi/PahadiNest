@@ -32,6 +32,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://pahadi-nest.vercel.app",
   "https://pahadi-nest-mh5k.vercel.app",
 ];
 
@@ -48,11 +49,28 @@ app.use(
         return callback(null, true);
       }
 
+      console.log("Blocked CORS origin:", origin);
+
       return callback(
         new Error("Not allowed by CORS")
       );
     },
+
     credentials: true,
+
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
+    ],
+
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+    ],
   })
 );
 
@@ -69,14 +87,20 @@ app.use(express.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
+
     resave: false,
+
     saveUninitialized: false,
+
     cookie: {
       secure: process.env.NODE_ENV === "production",
+
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production"
-        ? "none"
-        : "lax",
+
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
     },
   })
 );
@@ -94,7 +118,9 @@ app.use(passport.session());
 
 const authLimiter = rateLimit({
   windowMs: 60 * 1000,
+
   max: 5,
+
   message: {
     success: false,
     message:
@@ -118,7 +144,10 @@ app.get("/", (req, res) => {
    Routes
 ========================= */
 
-app.use("/api/homestays", homestayRoutes);
+app.use(
+  "/api/homestays",
+  homestayRoutes
+);
 
 app.use(
   "/api/auth",
