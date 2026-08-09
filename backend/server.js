@@ -13,8 +13,9 @@ console.log(
 const rateLimit = require("express-rate-limit");
 const session = require("express-session");
 const passport = require("./config/passport");
-
 const connectDB = require("./config/db");
+
+// Connect MongoDB
 connectDB();
 
 // Routes
@@ -25,32 +26,86 @@ const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+/* =========================
+   CORS
+========================= */
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://pahadi-nest-mh5k.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests without an origin
+      // such as Postman or server-to-server requests
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(
+        new Error("Not allowed by CORS")
+      );
+    },
+    credentials: true,
+  })
+);
+
+/* =========================
+   Middleware
+========================= */
+
 app.use(express.json());
+
+/* =========================
+   Session
+========================= */
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production"
+        ? "none"
+        : "lax",
+    },
   })
 );
+
+/* =========================
+   Passport
+========================= */
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Rate Limiter
+/* =========================
+   Rate Limiter
+========================= */
+
 const authLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 5,
   message: {
     success: false,
-    message: "Too many login attempts. Please try again after 1 minute.",
+    message:
+      "Too many login attempts. Please try again after 1 minute.",
   },
 });
 
-// Routes
+/* =========================
+   Health Check
+========================= */
+
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -59,12 +114,32 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/api/homestays", homestayRoutes);
-app.use("/api/auth", authLimiter, authRoutes);
-app.use("/auth", googleAuthRoutes);
-app.use("/api/ai", aiRoutes);
+/* =========================
+   Routes
+========================= */
 
-// 404 Route
+app.use("/api/homestays", homestayRoutes);
+
+app.use(
+  "/api/auth",
+  authLimiter,
+  authRoutes
+);
+
+app.use(
+  "/auth",
+  googleAuthRoutes
+);
+
+app.use(
+  "/api/ai",
+  aiRoutes
+);
+
+/* =========================
+   404 Route
+========================= */
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -72,7 +147,10 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handler
+/* =========================
+   Global Error Handler
+========================= */
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
 
@@ -82,8 +160,14 @@ app.use((err, req, res, next) => {
   });
 });
 
+/* =========================
+   Start Server
+========================= */
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
+  console.log(
+    `✅ Server is running on port ${PORT}`
+  );
 });

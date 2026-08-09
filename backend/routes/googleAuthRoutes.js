@@ -3,7 +3,13 @@ const passport = require("passport");
 
 const router = express.Router();
 
-// Start Google Login
+const FRONTEND_URL =
+  process.env.FRONTEND_URL || "http://localhost:5173";
+
+/* =========================
+   Start Google Login
+========================= */
+
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -12,19 +18,28 @@ router.get(
   })
 );
 
-// Google Callback
+/* =========================
+   Google Callback
+========================= */
+
 router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: `${FRONTEND_URL}/login`,
   }),
   (req, res) => {
-    const token = req.user.token;
+    try {
+      const token = req.user.token;
 
-    res.redirect(
-      `http://localhost:5173/google-success?token=${token}`
-    );
+      res.redirect(
+        `${FRONTEND_URL}/google-success?token=${token}`
+      );
+    } catch (error) {
+      console.error("Google Login Redirect Error:", error);
+
+      res.redirect(`${FRONTEND_URL}/login`);
+    }
   }
 );
 

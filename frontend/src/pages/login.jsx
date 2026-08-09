@@ -3,14 +3,24 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Input } from "../components/ui";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+
   const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email,
           password,
@@ -20,26 +30,28 @@ function Login() {
       // Save JWT Token
       localStorage.setItem("token", response.data.token);
 
-      alert(response.data.message);
+      alert(response.data.message || "Login successful!");
 
       navigate("/dashboard");
 
     } catch (error) {
-
       alert(
         error.response?.data?.message ||
-        "Login failed"
+        "Login failed. Please check your email and password."
       );
-
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${API_URL}/auth/google`;
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-emerald-50 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center px-6 py-10">
+    <div className="min-h-screen flex items-center justify-center px-6 py-12 bg-gradient-to-br from-slate-100 via-white to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
 
       <div className="w-full max-w-6xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden grid lg:grid-cols-2">
 
-        {/* Left Panel */}
+        {/* LEFT PANEL */}
         <div className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-emerald-700 via-green-600 to-teal-700 text-white p-14">
 
           <img
@@ -55,15 +67,16 @@ function Login() {
           </h1>
 
           <p className="text-center text-lg leading-8 text-emerald-100 max-w-md">
-            Discover authentic mountain homestays, hidden Himalayan gems,
-            and unforgettable travel experiences across Uttarakhand.
+            Discover authentic mountain stays, hidden Himalayan
+            destinations, and personalized travel experiences
+            across Uttarakhand.
           </p>
 
           <div className="mt-12 grid grid-cols-3 gap-8 text-center">
 
             <div>
-              <h2 className="text-3xl font-bold">100+</h2>
-              <p className="text-sm mt-2">Homestays</p>
+              <h2 className="text-3xl font-bold">AI</h2>
+              <p className="text-sm mt-2">Stay Finder</p>
             </div>
 
             <div>
@@ -72,15 +85,15 @@ function Login() {
             </div>
 
             <div>
-              <h2 className="text-3xl font-bold">5★</h2>
-              <p className="text-sm mt-2">Experiences</p>
+              <h2 className="text-3xl font-bold">🏔️</h2>
+              <p className="text-sm mt-2">Himalayas</p>
             </div>
 
           </div>
 
         </div>
 
-        {/* Right Panel */}
+        {/* RIGHT PANEL */}
         <div className="flex items-center justify-center p-10 lg:p-14">
 
           <div className="w-full max-w-md">
@@ -99,6 +112,7 @@ function Login() {
 
             <div className="space-y-5">
 
+              {/* EMAIL */}
               <Input
                 label="Email"
                 type="email"
@@ -107,6 +121,7 @@ function Login() {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
+              {/* PASSWORD */}
               <Input
                 label="Password"
                 type="password"
@@ -115,50 +130,68 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
+              {/* OPTIONS */}
               <div className="flex justify-between items-center text-sm">
 
                 <label className="flex items-center gap-2 dark:text-gray-300">
+
                   <input
                     type="checkbox"
                     className="accent-emerald-600"
                   />
+
                   Remember me
+
                 </label>
 
-                <button className="text-emerald-600 hover:underline">
+                <button
+                  type="button"
+                  className="text-emerald-600 hover:underline"
+                >
                   Forgot Password?
                 </button>
 
               </div>
 
+              {/* LOGIN BUTTON */}
               <Button
                 size="lg"
                 onClick={handleLogin}
               >
                 Login
               </Button>
+
+              {/* DIVIDER */}
               <div className="flex items-center my-4">
-                <div className="flex-1 border-t"></div>
+
+                <div className="flex-1 border-t border-slate-300 dark:border-slate-700"></div>
+
                 <span className="mx-4 text-gray-400 text-sm">
                   OR
                 </span>
-                <div className="flex-1 border-t"></div>
+
+                <div className="flex-1 border-t border-slate-300 dark:border-slate-700"></div>
+
               </div>
 
+              {/* GOOGLE LOGIN */}
               <button
-                onClick={() => {
-                  window.location.href = "http://localhost:5000/auth/google";
-                }}
+                type="button"
+                onClick={handleGoogleLogin}
                 className="w-full flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 rounded-xl py-3 bg-white dark:bg-slate-900 text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
               >
+
                 <img
                   src="https://www.svgrepo.com/show/475656/google-color.svg"
                   alt="Google"
                   className="w-5 h-5"
                 />
+
                 Continue with Google
+
               </button>
 
+              {/* SIGNUP */}
               <p className="text-center text-slate-600 dark:text-slate-300">
 
                 Don't have an account?
