@@ -1,318 +1,405 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Dashboard() {
-  const [destinations, setDestinations] = useState([]);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+import {
+  FaSearch,
+  FaHeart,
+  FaBookmark,
+  FaMapMarkerAlt,
+  FaArrowRight,
+  FaMountain,
+  FaClock,
+  FaTrash,
+} from "react-icons/fa";
 
+function Dashboard() {
+  const navigate = useNavigate();
+
+  const [savedStays, setSavedStays] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
 
   useEffect(() => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    navigate("/login");
-    return;
-  }
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
-  const fetchHomestays = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/homestays",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const saved =
+        JSON.parse(
+          localStorage.getItem("pahadi-saved-stays")
+        ) || [];
+
+      const searches =
+        JSON.parse(
+          localStorage.getItem("pahadi-search-history")
+        ) || [];
+
+      setSavedStays(saved);
+      setRecentSearches(searches);
+    } catch (error) {
+      console.error(
+        "Unable to load dashboard data:",
+        error
       );
-
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        alert("Session expired. Please login again.");
-        navigate("/login");
-        return;
-      }
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Failed to load homestays.");
-        setLoading(false);
-        return;
-      }
-
-      setDestinations(data.data || []);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setError("Failed to load homestays.");
-      setLoading(false);
     }
+  }, [navigate]);
+
+  const removeSavedStay = (index) => {
+    const updated = savedStays.filter(
+      (_, i) => i !== index
+    );
+
+    setSavedStays(updated);
+
+    localStorage.setItem(
+      "pahadi-saved-stays",
+      JSON.stringify(updated)
+    );
   };
 
-  fetchHomestays();
-}, [navigate]);
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-2xl font-semibold">
-        Loading homestays...
-      </div>
+  const clearSearchHistory = () => {
+    setRecentSearches([]);
+
+    localStorage.removeItem(
+      "pahadi-search-history"
     );
-  }
-  const deleteHomestay = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this homestay?"
-    );
-
-    if (!confirmDelete) return;
-
-    try {
-      const response = await fetch(
-  "http://localhost:5000/api/homestays"
-);
-
-      if (response.ok) {
-        setDestinations((prev) =>
-          prev.filter((item) => item._id !== id)
-        );
-
-        alert("✅ Homestay Deleted Successfully");
-      } else {
-        alert("Failed to delete homestay");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong");
-    }
   };
-  if (error) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-red-600 text-2xl font-semibold">
-        {error}
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 transition-all">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 transition-colors duration-300">
+      {/* ==================================================
+          HERO
+      ================================================== */}
 
-      {/* Hero */}
-      <section className="bg-gradient-to-r from-emerald-700 via-green-600 to-teal-700 text-white px-8 py-14">
-
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-8">
-
-          <div>
-            <h1 className="text-5xl font-bold mb-4">
-              Welcome Back 👋
-            </h1>
-
-            <p className="text-lg text-emerald-100">
-              Explore beautiful mountain stays and plan your next
-              adventure in Uttarakhand.
-            </p>
-          </div>
-
-          <img
-            src="/logopahadinest.png"
-            alt="Logo"
-            className="w-40"
-          />
-
-        </div>
-
-      </section>
-
-      {/* Stats */}
-      <section className="max-w-7xl mx-auto px-6 py-12">
-
-        <div className="grid md:grid-cols-4 gap-6">
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
-            <h2 className="text-4xl font-bold text-emerald-600">
-              {destinations.length}
-            </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-300">
-              Homestays
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
-            <h2 className="text-4xl font-bold text-emerald-600">
-              25+
-            </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-300">
-              Destinations
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
-            <h2 className="text-4xl font-bold text-emerald-600">
-              500+
-            </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-300">
-              Happy Travelers
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
-            <h2 className="text-4xl font-bold text-emerald-600">
-              ★ 4.9
-            </h2>
-            <p className="mt-2 text-gray-500 dark:text-gray-300">
-              Average Rating
-            </p>
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* Featured Homestays */}
-      <section className="max-w-7xl mx-auto px-6 pb-16">
-
-        <div className="flex justify-between items-center mb-8">
-
-          <h2 className="text-3xl font-bold dark:text-white">
-            Featured Homestays
-          </h2>
-
-          <button
-            onClick={() => navigate("/add-homestay")}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl"
-          >
-            + Add Homestay
-          </button>
-
-        </div>
-
-        {destinations.length === 0 ? (
-  <div className="text-center py-20">
-    <h3 className="text-2xl font-semibold text-gray-500 dark:text-gray-300">
-      No Homestays Available
-    </h3>
-
-    <p className="mt-2 text-gray-400">
-      Click "Add Homestay" to create your first listing.
-    </p>
-  </div>
-) : (
-  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-          {destinations.map((place) => (
-
-            <div
-              key={place._id}
-              className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300"
-            >
-
-              <img
-                src={place.image}
-                alt={place.name}
-                className="h-64 w-full object-cover"
-              />
-
-              <div className="p-6">
-
-                <h3 className="text-2xl font-bold dark:text-white">
-                  {place.name}
-                </h3>
-
-                <p className="text-emerald-600 font-semibold mt-2">
-                  📍 {place.location}
-                </p>
-
-                <p className="text-gray-500 dark:text-gray-300 mt-2">
-                  ₹{place.price} / night
-                </p>
-
-                <p className="text-yellow-500 mt-2">
-                  ⭐ {place.rating} ({place.reviews} Reviews)
-                </p>
-
-                <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
-                  {place.description}
-                </p>
-
-                <div className="mt-6 flex gap-3">
-
-                  <button
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl"
-                  >
-                    Explore
-                  </button>
-
-                  <button
-                    onClick={() => navigate(`/edit-homestay/${place._id}`)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-xl"
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => deleteHomestay(place._id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-5 rounded-xl"
-                  >
-                    Delete
-                  </button>
-                </div>
-
+      <section className="bg-gradient-to-br from-emerald-800 via-green-700 to-teal-800 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-16">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-emerald-100 text-sm mb-5">
+                <FaMountain />
+                My PahadiNest
               </div>
 
+              <h1 className="text-4xl md:text-5xl font-black">
+                Welcome Back 👋
+              </h1>
+
+              <p className="mt-4 text-emerald-100 text-lg max-w-2xl">
+                Keep track of your favourite stays and
+                continue planning your next mountain
+                adventure.
+              </p>
             </div>
 
-          ))}
- </div>
-)}
-       
-
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="hidden md:flex items-center gap-2 bg-white text-emerald-700 hover:bg-emerald-50 font-bold px-6 py-3 rounded-xl transition"
+            >
+              <FaSearch />
+              Find a Stay
+            </button>
+          </div>
+        </div>
       </section>
 
-      {/* Profile */}
-      <section className="max-w-7xl mx-auto px-6 pb-20">
+      {/* ==================================================
+          QUICK STATS
+      ================================================== */}
 
-        <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-lg p-8">
+      <section className="max-w-7xl mx-auto px-6 -mt-7 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {/* SAVED */}
 
-          <h2 className="text-3xl font-bold mb-6 dark:text-white">
-            Traveler Profile
-          </h2>
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  Saved Stays
+                </p>
 
-          <div className="grid md:grid-cols-2 gap-6">
+                <h2 className="text-3xl font-black text-slate-800 dark:text-white mt-1">
+                  {savedStays.length}
+                </h2>
+              </div>
 
-            <div>
-              <p className="text-gray-500 dark:text-gray-300">Name</p>
-              <h3 className="text-xl font-semibold dark:text-white">
-                Guest User
-              </h3>
+              <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                <FaHeart className="text-red-500" />
+              </div>
             </div>
-
-            <div>
-              <p className="text-gray-500 dark:text-gray-300">Membership</p>
-              <h3 className="text-xl font-semibold text-emerald-600">
-                Explorer
-              </h3>
-            </div>
-
-            <div>
-              <p className="text-gray-500 dark:text-gray-300">Saved Trips</p>
-              <h3 className="text-xl font-semibold dark:text-white">
-                6
-              </h3>
-            </div>
-
-            <div>
-              <p className="text-gray-500 dark:text-gray-300">Wishlist</p>
-              <h3 className="text-xl font-semibold dark:text-white">
-                12 Places
-              </h3>
-            </div>
-
           </div>
 
-        </div>
+          {/* SEARCHES */}
 
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  Recent Searches
+                </p>
+
+                <h2 className="text-3xl font-black text-slate-800 dark:text-white mt-1">
+                  {recentSearches.length}
+                </h2>
+              </div>
+
+              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <FaSearch className="text-blue-500" />
+              </div>
+            </div>
+          </div>
+
+          {/* ACTIVITY */}
+
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  Travel Activity
+                </p>
+
+                <h2 className="text-3xl font-black text-slate-800 dark:text-white mt-1">
+                  {savedStays.length +
+                    recentSearches.length}
+                </h2>
+              </div>
+
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <FaMountain className="text-emerald-500" />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
+      {/* ==================================================
+          MAIN CONTENT
+      ================================================== */}
+
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* ==================================================
+              SAVED STAYS
+          ================================================== */}
+
+          <section className="lg:col-span-2">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">
+                  Saved Stays ❤️
+                </h2>
+
+                <p className="text-slate-500 dark:text-slate-400 mt-1">
+                  Places you want to remember for your
+                  next trip.
+                </p>
+              </div>
+            </div>
+
+            {savedStays.length === 0 ? (
+              <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-lg p-10 text-center">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                  <FaHeart className="text-red-500 text-2xl" />
+                </div>
+
+                <h3 className="text-xl font-bold text-slate-800 dark:text-white mt-5">
+                  No saved stays yet
+                </h3>
+
+                <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto mt-2">
+                  When you find a stay you like, save it
+                  here so you can easily find it later.
+                </p>
+
+                <button
+                  onClick={() =>
+                    navigate("/dashboard")
+                  }
+                  className="mt-6 inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-xl transition"
+                >
+                  <FaSearch />
+                  Find a Stay
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {savedStays.map((stay, index) => (
+                  <div
+                    key={index}
+                    className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-lg p-6"
+                  >
+                    <div className="flex flex-col sm:flex-row justify-between gap-5">
+                      <div className="flex gap-4">
+                        <div className="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                          <FaMountain className="text-emerald-600 text-xl" />
+                        </div>
+
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-800 dark:text-white">
+                            {stay.name}
+                          </h3>
+
+                          <p className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-1">
+                            <FaMapMarkerAlt className="text-emerald-500" />
+                            {stay.location}
+                          </p>
+
+                          {stay.price && (
+                            <p className="text-emerald-600 font-semibold mt-2">
+                              {stay.price}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        {stay.url && (
+                          <a
+                            href={stay.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition"
+                          >
+                            View
+                            <FaArrowRight size={12} />
+                          </a>
+                        )}
+
+                        <button
+                          onClick={() =>
+                            removeSavedStay(index)
+                          }
+                          className="flex items-center justify-center w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-500 hover:bg-red-200 dark:hover:bg-red-900/50 transition"
+                          title="Remove saved stay"
+                        >
+                          <FaTrash size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* ==================================================
+              RECENT SEARCHES
+          ================================================== */}
+
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800 dark:text-white">
+                  Recent Searches
+                </h2>
+
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Continue where you left off.
+                </p>
+              </div>
+
+              {recentSearches.length > 0 && (
+                <button
+                  onClick={clearSearchHistory}
+                  className="text-xs text-red-500 hover:text-red-600"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            {recentSearches.length === 0 ? (
+              <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-lg p-8 text-center">
+                <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <FaSearch className="text-blue-500 text-xl" />
+                </div>
+
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white mt-4">
+                  No recent searches
+                </h3>
+
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+                  Your recent stay searches will appear
+                  here.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentSearches.map(
+                  (search, index) => (
+                    <div
+                      key={index}
+                      className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm"
+                    >
+                      <div className="flex gap-3">
+                        <FaClock className="text-emerald-500 mt-1" />
+
+                        <div>
+                          <h3 className="font-semibold text-slate-800 dark:text-white">
+                            {search.location}
+                          </h3>
+
+                          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                            {search.people} travellers
+                            {" • "}
+                            ₹{search.budget}/night
+                          </p>
+
+                          {search.stayType && (
+                            <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">
+                              {search.stayType}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* ==================================================
+            FIND STAY CTA
+        ================================================== */}
+
+        <section className="mt-12">
+          <div className="rounded-3xl bg-gradient-to-r from-emerald-700 via-green-600 to-teal-700 p-8 md:p-10 text-white shadow-xl">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-7">
+              <div>
+                <div className="flex items-center gap-2 text-emerald-100 text-sm font-semibold">
+                  <FaMountain />
+                  Ready for another adventure?
+                </div>
+
+                <h2 className="text-2xl md:text-3xl font-black mt-2">
+                  Find your next Pahadi stay
+                </h2>
+
+                <p className="text-emerald-100 mt-2 max-w-xl">
+                  Tell PahadiNest your destination, budget
+                  and preferences. Our AI will search the web
+                  for suitable stays.
+                </p>
+              </div>
+
+              <button
+                onClick={() =>
+                  navigate("/find-stay")
+                }
+                className="flex items-center gap-2 bg-white text-emerald-700 hover:bg-emerald-50 font-bold px-7 py-3.5 rounded-xl transition whitespace-nowrap"
+              >
+                <FaSearch />
+                Find a Stay
+                <FaArrowRight size={13} />
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

@@ -9,11 +9,13 @@ import About from "./pages/about";
 import Login from "./pages/login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard";
+import FindStay from "./pages/FindStay";
 import Showcase from "./pages/Showcase";
 import AddHomestay from "./pages/AddHomestay";
 import EditHomestay from "./pages/EditHomestay";
 import GoogleSuccess from "./pages/GoogleSuccess";
 import AIChat from "./pages/AIChat";
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -55,6 +57,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/find-stay" element={<FindStay />} />
 
         <Route path="/ai-chat" element={<AIChat />} />
 

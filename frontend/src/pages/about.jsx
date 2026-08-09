@@ -1,136 +1,383 @@
+import { useNavigate } from "react-router-dom";
+
+import {
+  FaMountain,
+  FaRobot,
+  FaSearch,
+  FaGlobe,
+  FaRupeeSign,
+  FaExternalLinkAlt,
+  FaLeaf,
+  FaArrowRight,
+  FaHeart,
+} from "react-icons/fa";
+
 function About() {
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white transition-all duration-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
 
-      {/* Hero Section */}
-      <section className="text-center py-20 px-6 bg-gradient-to-r from-green-100 to-blue-100 dark:from-slate-800 dark:to-slate-900">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          About PahadiNest 🏔️
-        </h1>
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-700 via-green-600 to-teal-700 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-20 md:py-28">
 
-        <p className="max-w-3xl mx-auto text-lg text-gray-700 dark:text-gray-300">
-          PahadiNest is your trusted travel companion for discovering
-          peaceful homestays, breathtaking Himalayan views, and authentic
-          experiences across Uttarakhand.
-        </p>
+          <div className="max-w-4xl mx-auto text-center">
+
+            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md px-5 py-2 rounded-full text-sm font-semibold mb-7">
+              <FaMountain />
+              Discover the Himalayas Differently
+            </div>
+
+            <h1 className="text-4xl md:text-6xl font-black leading-tight">
+              About PahadiNest 🏔️
+            </h1>
+
+            <p className="text-lg md:text-xl text-emerald-50 leading-8 mt-6 max-w-3xl mx-auto">
+              PahadiNest is an AI-powered travel discovery platform
+              designed to help travelers find suitable stays across
+              Uttarakhand based on their destination, budget, group
+              size, and preferences.
+            </p>
+
+            <button
+              onClick={() => navigate("/find-stay")}
+              className="mt-9 inline-flex items-center gap-2 bg-white text-emerald-700 hover:bg-emerald-50 font-bold px-7 py-4 rounded-xl shadow-xl transition"
+            >
+              <FaSearch />
+              Find Your Stay
+              <FaArrowRight size={13} />
+            </button>
+
+          </div>
+
+        </div>
       </section>
 
-      {/* About */}
-      <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
+      {/* WHO WE ARE */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <div>
-          <img
-            src="logopahadinest.png"
-            alt="Mountains"
-            className="rounded-3xl shadow-xl"
-          />
+        <div className="grid md:grid-cols-2 gap-14 items-center">
+
+          <div className="flex justify-center">
+
+            <div className="bg-white dark:bg-slate-800 rounded-[35px] p-5 shadow-2xl border border-slate-200 dark:border-slate-700">
+
+              <img
+                src="/logopahadinest.png"
+                alt="PahadiNest"
+                className="w-full max-w-md rounded-3xl object-contain"
+              />
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
+              Who We Are
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mt-3 leading-tight">
+              Making mountain stay discovery
+              <span className="text-emerald-600 dark:text-emerald-400">
+                {" "}simpler.
+              </span>
+            </h2>
+
+            <p className="text-slate-600 dark:text-slate-300 leading-8 mt-6">
+              Planning a trip to the mountains can mean checking
+              multiple websites, comparing prices, considering
+              different stay types, and trying to find something
+              that fits your group and budget.
+            </p>
+
+            <p className="text-slate-600 dark:text-slate-300 leading-8 mt-4">
+              PahadiNest brings this discovery process into one
+              simple experience. Users tell us what they are
+              looking for, and our AI assistant helps find and
+              suggest suitable options available online.
+            </p>
+
+          </div>
+
         </div>
 
-        <div>
-          <h2 className="text-4xl font-bold mb-6">
-            Who We Are
-          </h2>
+      </section>
 
-          <p className="text-gray-600 dark:text-gray-300 leading-8">
-            PahadiNest is designed to help travelers explore the hidden
-            beauty of Uttarakhand by connecting them with comfortable,
-            affordable, and authentic mountain homestays. We aim to
-            promote sustainable tourism while supporting local hosts and
-            creating memorable travel experiences.
+      {/* HOW IT WORKS */}
+      <section className="bg-white dark:bg-slate-900 py-20">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="text-center max-w-3xl mx-auto mb-14">
+
+            <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
+              The PahadiNest Experience
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mt-2">
+              How It Works
+            </h2>
+
+            <p className="text-slate-500 dark:text-slate-400 mt-4 leading-7">
+              From your preferences to potential stays, PahadiNest
+              helps make the discovery process easier.
+            </p>
+
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-7">
+
+            {/* STEP 1 */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700">
+
+              <div className="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <FaSearch className="text-emerald-600 text-xl" />
+              </div>
+
+              <p className="text-emerald-600 font-bold text-sm mt-6">
+                01
+              </p>
+
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2">
+                Share Your Preferences
+              </h3>
+
+              <p className="text-slate-500 dark:text-slate-400 leading-7 mt-3">
+                Enter your destination, number of people, budget,
+                and the type of stay you prefer.
+              </p>
+
+            </div>
+
+            {/* STEP 2 */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700">
+
+              <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <FaRobot className="text-blue-600 text-xl" />
+              </div>
+
+              <p className="text-blue-600 font-bold text-sm mt-6">
+                02
+              </p>
+
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2">
+                Get AI Suggestions
+              </h3>
+
+              <p className="text-slate-500 dark:text-slate-400 leading-7 mt-3">
+                PahadiNest AI uses your requirements to help
+                identify and recommend suitable stay options.
+              </p>
+
+            </div>
+
+            {/* STEP 3 */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700">
+
+              <div className="w-14 h-14 rounded-2xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                <FaExternalLinkAlt className="text-purple-600 text-xl" />
+              </div>
+
+              <p className="text-purple-600 font-bold text-sm mt-6">
+                03
+              </p>
+
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2">
+                Visit the Provider
+              </h3>
+
+              <p className="text-slate-500 dark:text-slate-400 leading-7 mt-3">
+                Choose an option and visit its original provider
+                website to check the latest details and make
+                your booking.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* OUR PURPOSE */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
+
+        <div className="grid lg:grid-cols-2 gap-8">
+
+          {/* MISSION */}
+          <div className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl p-9 text-white shadow-xl">
+
+            <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center">
+              <FaHeart className="text-2xl" />
+            </div>
+
+            <h3 className="text-3xl font-black mt-7">
+              Our Mission
+            </h3>
+
+            <p className="text-emerald-50 leading-8 mt-4">
+              To make discovering mountain stays easier,
+              more personalized, and less time-consuming for
+              travelers exploring Uttarakhand and the Himalayas.
+            </p>
+
+          </div>
+
+          {/* VISION */}
+          <div className="bg-white dark:bg-slate-800 rounded-3xl p-9 border border-slate-200 dark:border-slate-700 shadow-lg">
+
+            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center">
+              <FaMountain className="text-emerald-600 text-2xl" />
+            </div>
+
+            <h3 className="text-3xl font-black text-slate-900 dark:text-white mt-7">
+              Our Vision
+            </h3>
+
+            <p className="text-slate-500 dark:text-slate-400 leading-8 mt-4">
+              To create a simple travel discovery experience
+              where technology helps people find meaningful
+              stays and experiences in the mountains.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* WHY PAHADINEST */}
+      <section className="bg-slate-100 dark:bg-slate-950 py-20">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="text-center mb-14">
+
+            <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
+              Built For Travelers
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mt-2">
+              Why PahadiNest?
+            </h2>
+
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 text-center shadow-sm">
+
+              <FaRobot className="mx-auto text-blue-600 text-3xl" />
+
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-5">
+                AI Powered
+              </h3>
+
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-6">
+                Personalized assistance for your travel search.
+              </p>
+
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 text-center shadow-sm">
+
+              <FaRupeeSign className="mx-auto text-emerald-600 text-3xl" />
+
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-5">
+                Budget Focused
+              </h3>
+
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-6">
+                Find suggestions based on the budget you provide.
+              </p>
+
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 text-center shadow-sm">
+
+              <FaGlobe className="mx-auto text-purple-600 text-3xl" />
+
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-5">
+                Web Discovery
+              </h3>
+
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-6">
+                Discover options from information available online.
+              </p>
+
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 text-center shadow-sm">
+
+              <FaLeaf className="mx-auto text-green-600 text-3xl" />
+
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-5">
+                Mountain Focused
+              </h3>
+
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-6">
+                Designed around Uttarakhand and Himalayan travel.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* IMPORTANT NOTE */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-3xl p-7 md:p-9">
+
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+            A simple way to discover — not a booking platform
+          </h3>
+
+          <p className="text-slate-600 dark:text-slate-300 leading-7 mt-3">
+            PahadiNest helps users discover and compare suitable
+            stay options. We do not process bookings or payments
+            directly. When you select an option, you are directed
+            to the original provider website for the latest
+            availability, pricing, and booking.
           </p>
-        </div>
-
-      </section>
-
-      {/* Mission & Vision */}
-      <section className="bg-white dark:bg-slate-800 py-16">
-
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 px-6">
-
-          <div className="shadow-lg rounded-2xl p-8 bg-slate-50 dark:bg-slate-900">
-            <h3 className="text-3xl font-bold mb-4">
-              🎯 Our Mission
-            </h3>
-
-            <p className="text-gray-600 dark:text-gray-300 leading-7">
-              To simplify travel planning by helping users discover
-              trusted homestays and personalized travel experiences
-              across Uttarakhand.
-            </p>
-          </div>
-
-          <div className="shadow-lg rounded-2xl p-8 bg-slate-50 dark:bg-slate-900">
-            <h3 className="text-3xl font-bold mb-4">
-              🌄 Our Vision
-            </h3>
-
-            <p className="text-gray-600 dark:text-gray-300 leading-7">
-              To become the leading platform for promoting eco-tourism
-              and local homestays while encouraging sustainable travel.
-            </p>
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-20 px-6">
-
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Why Choose PahadiNest?
-        </h2>
-
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 text-center">
-            <div className="text-5xl mb-4">🏡</div>
-            <h3 className="text-2xl font-semibold mb-3">
-              Authentic Homestays
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Stay with local families and experience the culture of Uttarakhand.
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 text-center">
-            <div className="text-5xl mb-4">🗺️</div>
-            <h3 className="text-2xl font-semibold mb-3">
-              Personalized Trips
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Get travel recommendations based on your interests and budget.
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 text-center">
-            <div className="text-5xl mb-4">🌿</div>
-            <h3 className="text-2xl font-semibold mb-3">
-              Eco Tourism
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Promote responsible tourism while supporting local communities.
-            </p>
-          </div>
 
         </div>
 
       </section>
 
       {/* CTA */}
-      <section className="text-center py-20 bg-green-600 text-white px-6">
+      <section className="px-6 pb-20">
 
-        <h2 className="text-4xl font-bold mb-6">
-          Start Your Himalayan Journey Today
-        </h2>
+        <div className="max-w-7xl mx-auto rounded-[35px] bg-gradient-to-r from-emerald-700 via-green-600 to-teal-700 text-white text-center px-6 py-16">
 
-        <p className="text-lg mb-8">
-          Explore beautiful destinations and book your perfect mountain stay.
-        </p>
+          <FaMountain className="mx-auto text-4xl text-emerald-100" />
 
-        <button className="bg-white text-green-700 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition">
-          Explore Homestays
-        </button>
+          <h2 className="text-3xl md:text-5xl font-black mt-5">
+            Ready to find your Pahadi stay?
+          </h2>
+
+          <p className="text-emerald-100 text-lg mt-4">
+            Tell us what you're looking for and let PahadiNest
+            help you discover your options.
+          </p>
+
+          <button
+            onClick={() => navigate("/find-stay")}
+            className="mt-8 inline-flex items-center gap-2 bg-white text-emerald-700 hover:bg-emerald-50 font-bold px-8 py-4 rounded-xl transition shadow-lg"
+          >
+            <FaSearch />
+            Find a Stay
+            <FaArrowRight size={13} />
+          </button>
+
+        </div>
 
       </section>
 
